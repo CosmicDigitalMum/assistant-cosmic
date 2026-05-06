@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Assistante IA Cosmic ✦ — Ton guide business digital</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;1,400&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --violet: #8c52ff;
+    --violet-light: #ede8ff;
+    --violet-dark: #5a32b0;
+    --text: #1a1a2e;
+    --text-muted: #6b6b8a;
+    --bg: #faf9ff;
+    --bg-card: #ffffff;
+    --border: #e8e3f5;
+    --radius: 14px;
+    --radius-sm: 8px;
+    --shadow: 0 4px 24px rgba(140,82,255,0.08);
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 0;
+  }
+
+  /* ── TOP BAR ── */
+  .topbar {
+    background: white;
+    border-bottom: 1px solid var(--border);
+    padding: 14px 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  .topbar-logo {
+    width: 34px; height: 34px; border-radius: 50%;
+    background: var(--violet);
+    display: flex; align-items: center; justify-content: center;
+    color: white; font-size: 16px; flex-shrink: 0;
+  }
+  .topbar-name { font-size: 15px; font-weight: 600; color: var(--text); }
+  .topbar-sub { font-size: 12px; color: var(--text-muted); }
+  .topbar-badge {
+    margin-left: auto;
+    background: var(--violet-light);
+    color: var(--violet-dark);
+    font-size: 11px; font-weight: 500;
+    padding: 4px 10px; border-radius: 20px;
+  }
+
+  /* ── LAYOUT ── */
+  .container { max-width: 680px; margin: 0 auto; padding: 32px 20px 60px; }
+
+  /* ── STEP INDICATORS ── */
+  .steps {
+    display: flex; align-items: center; gap: 0;
+    margin-bottom: 32px;
+  }
+  .step {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 12px; font-weight: 500; color: var(--text-muted);
+  }
+  .step-num {
+    width: 24px; height: 24px; border-radius: 50%;
+    border: 1.5px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 600; color: var(--text-muted);
+    background: white; flex-shrink: 0;
+  }
+  .step.active .step-num { background: var(--violet); border-color: var(--violet); color: white; }
+  .step.active { color: var(--text); }
+  .step.done .step-num { background: #d4f4e8; border-color: #4ecb8d; color: #2a9d6f; }
+  .step-line { flex: 1; height: 1.5px; background: var(--border); margin: 0 8px; }
+
+  /* ── CARDS ── */
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 28px;
+    box-shadow: var(--shadow);
+    margin-bottom: 20px;
+  }
+  .card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px; font-weight: 400;
+    color: var(--text);
+    margin-bottom: 6px;
+  }
+  .card-sub {
+    font-size: 14px; color: var(--text-muted); line-height: 1.6;
+    margin-bottom: 20px;
+  }
+
+  /* ── NICHE INPUT ── */
+  .field-label {
+    font-size: 13px; font-weight: 500; color: var(--text);
+    margin-bottom: 8px; display: block;
+  }
+  .niche-field {
+    width: 100%; padding: 12px 16px;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px; color: var(--text);
+    background: white;
+    transition: border-color 0.2s;
+    outline: none;
+  }
+  .niche-field:focus { border-color: var(--violet); }
+  .niche-field::placeholder { color: #b0b0c8; }
+  .tag-cloud {
+    display: flex; flex-wrap: wrap; gap: 7px;
+    margin-top: 12px;
+  }
+  .tag {
+    padding: 6px 13px;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    font-size: 12px; color: var(--text-muted);
+    background: white; cursor: pointer;
+    transition: all 0.15s;
+    user-select: none;
+  }
+  .tag:hover { border-color: var(--violet); color: var(--violet); background: var(--violet-light); }
+  .tag.selected { border-color: var(--violet); color: var(--violet); background: var(--violet-light); font-weight: 500; }
+
+  /* ── MODULE GRID ── */
+  .module-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 10px;
+    margin-bottom: 24px;
+  }
+  .mod-card {
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 14px 10px;
+    text-align: center;
+    cursor: pointer;
+    background: white;
+    transition: all 0.15s;
+  }
+  .mod-card:hover { border-color: var(--violet); background: var(--violet-light); }
+  .mod-card.selected { border-color: var(--violet); background: var(--violet-light); }
+  .mod-card .mod-icon { font-size: 22px; margin-bottom: 7px; display: block; }
+  .mod-card .mod-name { font-size: 12px; font-weight: 500; color: var(--text); line-height: 1.3; }
+  .mod-card .mod-desc { font-size: 10px; color: var(--text-muted); margin-top: 3px; line-height: 1.4; }
+  .mod-card.selected .mod-name { color: var(--violet-dark); }
+
+  /* ── BUTTONS ── */
+  .btn-primary {
+    display: block; width: 100%; padding: 14px;
+    background: var(--violet);
+    color: white; font-family: 'DM Sans', sans-serif;
+    font-size: 15px; font-weight: 500;
+    border: none; border-radius: var(--radius-sm);
+    cursor: pointer; transition: all 0.15s;
+    text-align: center; text-decoration: none;
+  }
+  .btn-primary:hover { background: var(--violet-dark); transform: translateY(-1px); }
+  .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+  .btn-secondary {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 9px 16px;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px; color: var(--text-muted);
+    background: white; cursor: pointer; transition: all 0.15s;
+  }
+  .btn-secondary:hover { border-color: var(--violet); color: var(--violet); }
+
+  /* ── PROMPT RESULT ── */
+  .prompt-box {
+    background: #f7f5ff;
+    border: 1.5px solid var(--violet-light);
+    border-radius: var(--radius-sm);
+    padding: 20px;
+    font-size: 13px; line-height: 1.75;
+    color: var(--text);
+    white-space: pre-wrap;
+    word-break: break-word;
+    max-height: 340px;
+    overflow-y: auto;
+    font-family: 'DM Sans', sans-serif;
+    margin-bottom: 16px;
+  }
+  .copy-btn {
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    width: 100%; padding: 13px;
+    background: var(--violet);
+    color: white; border: none; border-radius: var(--radius-sm);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px; font-weight: 500; cursor: pointer;
+    transition: all 0.15s; margin-bottom: 12px;
+  }
+  .copy-btn:hover { background: var(--violet-dark); }
+  .copy-btn.copied { background: #2a9d6f; }
+
+  .open-claude-btn {
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    width: 100%; padding: 13px;
+    background: white;
+    color: var(--text); border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px; font-weight: 500; cursor: pointer;
+    transition: all 0.15s; text-decoration: none;
+  }
+  .open-claude-btn:hover { border-color: var(--violet); color: var(--violet); }
+
+  /* ── INSTRUCTIONS ── */
+  .steps-how {
+    display: flex; flex-direction: column; gap: 12px;
+    margin-top: 20px;
+  }
+  .how-step {
+    display: flex; align-items: flex-start; gap: 12px;
+  }
+  .how-num {
+    width: 26px; height: 26px; border-radius: 50%;
+    background: var(--violet); color: white;
+    font-size: 12px; font-weight: 600;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; margin-top: 1px;
+  }
+  .how-text { font-size: 13px; line-height: 1.6; color: var(--text); }
+  .how-text strong { color: var(--violet-dark); }
+
+  /* ── SCREEN MANAGEMENT ── */
+  .screen { display: none; }
+  .screen.active { display: block; }
+
+  /* ── NICHE BADGE (steps 2+) ── */
+  .niche-pill {
+    display: inline-flex; align-items: center; gap: 7px;
+    padding: 6px 14px;
+    background: var(--violet-light);
+    border-radius: 20px;
+    font-size: 12px; font-weight: 500; color: var(--violet-dark);
+    margin-bottom: 20px;
+  }
+  .change-link {
+    font-size: 11px; color: var(--text-muted); cursor: pointer;
+    text-decoration: underline; text-decoration-style: dotted;
+  }
+  .change-link:hover { color: var(--violet); }
+
+  /* ── FOOTER ── */
+  .footer {
+    text-align: center; margin-top: 40px;
+    font-size: 11px; color: var(--text-muted);
+  }
+  .footer a { color: var(--violet); text-decoration: none; }
+
+  /* ── STORYTELLING FORM ── */
+  .story-field { margin-bottom: 18px; }
+  .story-field label { font-size: 13px; font-weight: 500; color: var(--text); display: block; margin-bottom: 4px; }
+  .story-field .story-hint { font-size: 11px; color: var(--text-muted); margin-bottom: 7px; line-height: 1.5; }
+  .story-field textarea {
+    width: 100%; padding: 11px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px; color: var(--text);
+    background: white; resize: vertical;
+    min-height: 80px; line-height: 1.6;
+    transition: border-color 0.2s; outline: none;
+  }
+  .story-field textarea:focus { border-color: var(--violet); }
+  .story-field textarea::placeholder { color: #b0b0c8; font-size: 13px; }
+  .story-progress { display: flex; gap: 6px; margin-bottom: 20px; }
+  .story-dot { height: 4px; flex: 1; border-radius: 2px; background: var(--border); transition: background 0.3s; }
+  .story-dot.filled { background: var(--violet); }
+  .optional-tag { font-size: 10px; color: var(--text-muted); background: var(--bg); border: 1px solid var(--border); border-radius: 10px; padding: 1px 7px; margin-left: 6px; vertical-align: middle; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 480px) {
+    .container { padding: 20px 14px 48px; }
+    .card { padding: 20px; }
+    .card-title { font-size: 19px; }
+    .module-grid { grid-template-columns: repeat(2, 1fr); }
+    .steps { gap: 0; }
+    .step span:not(.step-num) { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-logo">✦</div>
+  <div>
+    <div class="topbar-name">Assistante IA Cosmic</div>
+    <div class="topbar-sub">30 Jours Top Départ — Module IA</div>
+  </div>
+  <div class="topbar-badge">✨ Gratuit</div>
+</div>
+
+<div class="container">
+
+  <!-- STEP INDICATOR -->
+  <div class="steps">
+    <div class="step active" id="s1">
+      <div class="step-num">1</div>
+      <span>Ta niche</span>
+    </div>
+    <div class="step-line"></div>
+    <div class="step" id="s2">
+      <div class="step-num">2</div>
+      <span>Ton module</span>
+    </div>
+    <div class="step-line"></div>
+    <div class="step" id="s3">
+      <div class="step-num">3</div>
+      <span>Ton prompt</span>
+    </div>
+  </div>
+
+  <!-- ══ SCREEN 1 : NICHE ══ -->
+  <div class="screen active" id="screen-1">
+    <div class="card">
+      <p class="card-title">Dans quelle niche travailles-tu ?</p>
+      <p class="card-sub">L'assistante va générer un prompt personnalisé 100% adapté à ton domaine pour que tu obtiennes les meilleurs résultats avec Claude.</p>
+
+      <label class="field-label">Décris ta niche en quelques mots</label>
+      <input class="niche-field" id="niche-input" type="text"
+        placeholder="Ex : coaching bien-être, cuisine healthy, finance perso..."
+        oninput="checkNiche()" />
+
+      <div class="tag-cloud" id="tags">
+        <span class="tag" onclick="setNiche(this, 'Bien-être & mindset')">Bien-être & mindset</span>
+        <span class="tag" onclick="setNiche(this, 'Cuisine & nutrition')">Cuisine & nutrition</span>
+        <span class="tag" onclick="setNiche(this, 'Finance personnelle')">Finance personnelle</span>
+        <span class="tag" onclick="setNiche(this, 'Parentalité & famille')">Parentalité & famille</span>
+        <span class="tag" onclick="setNiche(this, 'Fitness & sport')">Fitness & sport</span>
+        <span class="tag" onclick="setNiche(this, 'Mode & style')">Mode & style</span>
+        <span class="tag" onclick="setNiche(this, 'Développement personnel')">Développement personnel</span>
+        <span class="tag" onclick="setNiche(this, 'Business & entrepreneuriat')">Business & entrepreneuriat</span>
+        <span class="tag" onclick="setNiche(this, 'Art & créativité')">Art & créativité</span>
+        <span class="tag" onclick="setNiche(this, 'Langues & apprentissage')">Langues & apprentissage</span>
+        <span class="tag" onclick="setNiche(this, 'Voyage & lifestyle')">Voyage & lifestyle</span>
+        <span class="tag" onclick="setNiche(this, 'Photographie & vidéo')">Photographie & vidéo</span>
+      </div>
+    </div>
+    <button class="btn-primary" id="btn-step1" disabled onclick="goStep2()">Continuer →</button>
+  </div>
+
+  <!-- ══ SCREEN 2 : MODULE ══ -->
+  <div class="screen" id="screen-2">
+    <div class="niche-pill">
+      ✦ <span id="niche-display-2"></span>
+      <span class="change-link" onclick="goStep1()">Changer</span>
+    </div>
+    <div class="card">
+      <p class="card-title">Quel aspect veux-tu travailler ?</p>
+      <p class="card-sub">Chaque module génère un prompt spécialisé. Tu pourras en faire plusieurs à la suite.</p>
+
+      <div class="module-grid" id="module-grid">
+        <div class="mod-card" data-module="avatar" onclick="selectMod(this)">
+          <span class="mod-icon">🎯</span>
+          <div class="mod-name">Avatar client</div>
+          <div class="mod-desc">Définir ta cible idéale</div>
+        </div>
+        <div class="mod-card" data-module="storytelling" onclick="selectMod(this)">
+          <span class="mod-icon">✍️</span>
+          <div class="mod-name">Storytelling</div>
+          <div class="mod-desc">Ton histoire qui vend</div>
+        </div>
+        <div class="mod-card" data-module="produit" onclick="selectMod(this)">
+          <span class="mod-icon">🎁</span>
+          <div class="mod-name">Nom & offre</div>
+          <div class="mod-desc">Nommer et structurer</div>
+        </div>
+        <div class="mod-card" data-module="hooks" onclick="selectMod(this)">
+          <span class="mod-icon">⚡</span>
+          <div class="mod-name">Hooks</div>
+          <div class="mod-desc">Accroches qui stoppent</div>
+        </div>
+        <div class="mod-card" data-module="valeur" onclick="selectMod(this)">
+          <span class="mod-icon">⭐</span>
+          <div class="mod-name">Valeur unique</div>
+          <div class="mod-desc">Te différencier</div>
+        </div>
+        <div class="mod-card" data-module="prix" onclick="selectMod(this)">
+          <span class="mod-icon">💰</span>
+          <div class="mod-name">Prix & positionnement</div>
+          <div class="mod-desc">Fixer ton tarif</div>
+        </div>
+        <div class="mod-card" data-module="contenu" onclick="selectMod(this)">
+          <span class="mod-icon">📱</span>
+          <div class="mod-name">Idées de contenu</div>
+          <div class="mod-desc">Posts & stories</div>
+        </div>
+        <div class="mod-card" data-module="email" onclick="selectMod(this)">
+          <span class="mod-icon">📧</span>
+          <div class="mod-name">Email de vente</div>
+          <div class="mod-desc">Séquence qui convertit</div>
+        </div>
+      </div>
+    </div>
+    <button class="btn-primary" id="btn-step2" disabled onclick="goStep3()">Générer mon prompt →</button>
+  </div>
+
+  <!-- ══ SCREEN 2C : AVATAR CLIENT FORM ══ -->
+  <div class="screen" id="screen-2c">
+    <div class="niche-pill">
+      ✦ <span id="niche-display-2c"></span> — Avatar client
+      <span class="change-link" onclick="goStep2()">Changer de module</span>
+    </div>
+    <div class="card">
+      <p class="card-title">Définis ton client idéal 🎯</p>
+      <p class="card-sub">Remplis les 4 champs ci-dessous. Même si ce n'est pas encore 100% clair — écris ce que tu observes ou ce que tu ressens. Les champs marqués <span style="color:var(--violet)">✦</span> sont essentiels.</p>
+
+      <div class="story-progress">
+        <div class="story-dot" id="av-dot1"></div>
+        <div class="story-dot" id="av-dot2"></div>
+        <div class="story-dot" id="av-dot3"></div>
+        <div class="story-dot" id="av-dot4"></div>
+      </div>
+
+      <div class="story-field">
+        <label>✦ Mon activité / mon offre</label>
+        <div class="story-hint">Décris ce que tu fais, ce que tu vends et à qui.</div>
+        <textarea id="av-activite" placeholder="Ex : Je crée des guides digitaux et formations pour aider les femmes qui veulent se lancer en ligne et générer leurs premiers revenus depuis chez elles..." oninput="updateAvatarDots()"></textarea>
+      </div>
+
+      <div class="story-field">
+        <label>✦ Le problème principal que je pense résoudre</label>
+        <div class="story-hint">Même si ce n'est pas encore totalement clair, note ce que tu ressens.</div>
+        <textarea id="av-probleme" placeholder="Ex : Mes clients ne savent pas par où commencer pour créer un produit digital, ils ont peur de ne pas être légitimes et de ne pas trouver leurs premiers clients..." oninput="updateAvatarDots()"></textarea>
+      </div>
+
+      <div class="story-field">
+        <label>✦ Ce que j'observe déjà chez mon audience</label>
+        <div class="story-hint">Questions reçues, blocages exprimés, phrases entendues, situations vécues par tes abonnés ou clients.</div>
+        <textarea id="av-observations" placeholder="Ex : Beaucoup me disent qu'elles ne savent pas quoi vendre, qu'elles ont peur du jugement, que leur entourage ne les soutient pas, qu'elles manquent de temps..." oninput="updateAvatarDots()"></textarea>
+      </div>
+
+      <div class="story-field">
+        <label>✦ Mon objectif avec Instagram</label>
+        <div class="story-hint">Ce que tu veux vendre, à qui, et à quel stade se trouvent tes abonnés actuellement.</div>
+        <textarea id="av-objectif" placeholder="Ex : Je veux vendre ma formation à 37€ à des débutantes qui veulent se lancer en ligne, mes abonnés sont curieux mais hésitent encore à passer à l'action..." oninput="updateAvatarDots()"></textarea>
+      </div>
+    </div>
+    <button class="btn-primary" id="btn-step2c" disabled onclick="goStep3FromAvatar()">Générer mon prompt Avatar →</button>
+    <button class="btn-secondary" onclick="goStep2()" style="margin-top:10px">← Retour aux modules</button>
+  </div>
+
+  <!-- ══ SCREEN 2B : STORYTELLING FORM ══ -->
+  <div class="screen" id="screen-2b">
+    <div class="niche-pill">
+      ✦ <span id="niche-display-2b"></span> — Storytelling
+      <span class="change-link" onclick="goStep2()">Changer de module</span>
+    </div>
+    <div class="card">
+      <p class="card-title">Raconte-moi ton histoire ✍️</p>
+      <p class="card-sub">Remplis les champs ci-dessous. Plus tu es précis(e), plus le prompt sera puissant. Les champs marqués <span style="color:var(--violet)">✦</span> sont essentiels.</p>
+
+      <div class="story-progress">
+        <div class="story-dot" id="dot1"></div>
+        <div class="story-dot" id="dot2"></div>
+        <div class="story-dot" id="dot3"></div>
+        <div class="story-dot" id="dot4"></div>
+        <div class="story-dot" id="dot5"></div>
+      </div>
+
+      <div class="story-field">
+        <label>✦ Aujourd'hui — ta situation actuelle</label>
+        <div class="story-hint">Ce que tu fais, comment tu vis cette activité, ce qu'elle t'apporte au quotidien.</div>
+        <textarea id="st-aujourd" placeholder="Ex : Aujourd'hui je crée des formations en ligne sur la nutrition, je travaille depuis chez moi, j'accompagne des femmes à retrouver de l'énergie..." oninput="updateStoryDots()"></textarea>
+      </div>
+
+      <div class="story-field">
+        <label>✦ Avant — les difficultés que tu vivais</label>
+        <div class="story-hint">Tes galères, frustrations, ce qui ne fonctionnait pas dans ta vie ou ton activité.</div>
+        <textarea id="st-avant" placeholder="Ex : Avant, je travaillais en entreprise, je rentrais épuisée, je n'avais plus de temps pour moi ni pour ma famille..." oninput="updateStoryDots()"></textarea>
+      </div>
+
+      <div class="story-field">
+        <label>✦ Ta transformation — ce que ce changement t'a apporté</label>
+        <div class="story-hint">Au-delà de l'argent : émotionnel, rythme de vie, clarté, confiance, alignement...</div>
+        <textarea id="st-transfo" placeholder="Ex : Aujourd'hui j'ai retrouvé de la sérénité, je suis présente pour mes enfants, je me sens alignée avec mes valeurs..." oninput="updateStoryDots()"></textarea>
+      </div>
+
+      <div class="story-field">
+        <label>Les 3 ou 4 points clés de ton parcours <span class="optional-tag">optionnel</span></label>
+        <div class="story-hint">Événements marquants, prises de conscience, étapes importantes.</div>
+        <textarea id="st-points" placeholder="Ex : 1. Burn-out en 2021  2. Découverte des formations en ligne  3. Première vente en 3 semaines  4. Quitter mon poste CDI..." oninput="updateStoryDots()"></textarea>
+      </div>
+
+      <div class="story-field">
+        <label>Pourquoi tu t'es lancé(e) en ligne <span class="optional-tag">optionnel</span></label>
+        <div class="story-hint">Tes motivations profondes, ce que tu recherchais vraiment.</div>
+        <textarea id="st-pourquoi" placeholder="Ex : Je voulais prouver qu'on pouvait gagner sa vie autrement, retrouver ma liberté, être un modèle pour mes enfants..." oninput="updateStoryDots()"></textarea>
+      </div>
+    </div>
+    <button class="btn-primary" id="btn-step2b" disabled onclick="goStep3FromStory()">Générer mon prompt Storytelling →</button>
+    <button class="btn-secondary" onclick="goStep2()" style="margin-top:10px">← Retour aux modules</button>
+  </div>
+
+  <!-- ══ SCREEN 3 : PROMPT ══ -->
+  <div class="screen" id="screen-3">
+    <div class="niche-pill">
+      ✦ <span id="niche-display-3"></span> — <span id="module-display-3"></span>
+      <span class="change-link" onclick="goStep2()">Changer</span>
+    </div>
+
+    <div class="card">
+      <p class="card-title">Ton prompt personnalisé ✦</p>
+      <p class="card-sub">Copie ce prompt, ouvre Claude.ai, et colle-le dans la conversation. Claude s'adaptera exactement à ta niche et à ton objectif.</p>
+
+      <div class="prompt-box" id="prompt-output"></div>
+
+      <button class="copy-btn" id="copy-btn" onclick="copyPrompt()">
+        <span id="copy-icon">📋</span>
+        <span id="copy-label">Copier le prompt</span>
+      </button>
+
+      <a href="https://claude.ai" target="_blank" class="open-claude-btn">
+        🤖 Ouvrir Claude.ai (gratuit)
+      </a>
+
+      <div class="steps-how">
+        <div class="how-step">
+          <div class="how-num">1</div>
+          <div class="how-text">Clique sur <strong>Copier le prompt</strong> ci-dessus</div>
+        </div>
+        <div class="how-step">
+          <div class="how-num">2</div>
+          <div class="how-text">Ouvre <strong>Claude.ai</strong> (compte gratuit suffisant)</div>
+        </div>
+        <div class="how-step">
+          <div class="how-num">3</div>
+          <div class="how-text"><strong>Colle le prompt</strong> dans la zone de message et envoie</div>
+        </div>
+        <div class="how-step">
+          <div class="how-num">4</div>
+          <div class="how-text">Réponds aux questions de Claude — il <strong>s'adapte à ta niche</strong> automatiquement</div>
+        </div>
+      </div>
+    </div>
+
+    <button class="btn-secondary" onclick="goStep2()" style="margin-bottom:12px">← Essayer un autre module</button>
+  </div>
+
+  <div class="footer">
+    Module IA • <a href="https://cosmicdigitalmum.com" target="_blank">Cosmic Digital Mum</a> — 30 Jours Top Départ
+  </div>
+
+</div>
+
+<script>
+const PROMPTS = {
+  avatar: (niche, activite, probleme, observations, objectif) => `Tu es un expert en psychologie client, marketing et storytelling.
+Je vais te donner des informations sur mon activité et mon audience.
+À partir de ces éléments, aide-moi à définir une version réaliste et exploitable de mon client idéal.
+
+Je travaille dans la niche : "${niche}".
+
+Voici les informations :
+
+– Mon activité / mon offre :
+${activite}
+
+– Le problème principal que je pense résoudre :
+${probleme}
+
+– Ce que j'observe déjà chez mon audience :
+${observations}
+
+– Mon objectif avec Instagram :
+${objectif}
+
+À partir de ces informations uniquement, réponds de manière détaillée et concrète aux questions suivantes, comme si tu étais dans la tête de mon client idéal aujourd'hui :
+
+1- Quelle est sa situation actuelle aujourd'hui dans sa vie ou son business ?
+2- Qu'est-ce qui ne fonctionne plus pour lui en ce moment ?
+3- Depuis combien de temps vit-il cette situation ?
+4- Quel est le problème principal qu'il aimerait résoudre en priorité ?
+5- Qu'est-ce que ce problème lui empêche concrètement de faire ou d'obtenir ?
+6- Qu'a-t-il déjà essayé pour résoudre ce problème et pourquoi cela n'a pas fonctionné ?
+7- Comment se sent-il émotionnellement face à cette situation ?
+8- Quelle est la pensée qu'il se répète souvent en silence à propos de ce problème ?
+9- De quoi a-t-il peur si rien ne change ?
+10- S'il pouvait claquer des doigts, à quoi ressemblerait sa situation idéale ?
+11- Qu'est-ce que cette situation idéale lui permettrait de ressentir ?
+12- Qu'est-ce que cela changerait concrètement dans sa vie quotidienne ?
+13- Qu'est-ce qui l'empêche aujourd'hui de passer à l'action ?
+14- Quelles sont ses principales objections ou croyances limitantes face à une solution comme la mienne ?
+15- Qu'est-ce qui pourrait le convaincre de me faire confiance à travers mes contenus et mes stories ?
+16- Qu'a-t-il besoin de voir ou d'entendre régulièrement pour se sentir compris et en sécurité ?
+17- À quel moment précis serait-il le plus réceptif à mon message ?
+18- Qu'est-ce qui ferait qu'il se dise un jour : "ok, là j'en ai assez, je passe à l'action" ?
+
+Présente les réponses de façon claire, structurée et exploitable, afin que je puisse ensuite les réutiliser directement dans mes stories Instagram.`,
+
+  storytelling: (niche, auj, avant, transfo, points, pourquoi) => `Tu es un expert en storytelling authentique et émotionnel, spécialisé dans les parcours de personnes qui se sont lancées en ligne.
+
+Ta mission est de m'aider à formuler et développer mon storytelling personnel en respectant la méthode du V :
+
+– Aujourd'hui (ma situation actuelle)
+– Avant (mes difficultés, mes galères)
+– Transformation (ce que ce changement m'a apporté)
+
+Je travaille dans la niche : "${niche}".
+
+Je veux un storytelling :
+– humain
+– sincère
+– accessible
+– sans exagération
+– sans dramatisation
+– qui crée de l'identification
+
+Voici les éléments clés de mon parcours :
+
+* Aujourd'hui, ma situation actuelle :
+→ ${auj}
+
+* Avant, les difficultés que je vivais :
+→ ${avant}
+
+* Ce que cette transformation m'a apporté (émotionnel, rythme de vie, clarté, confiance, alignement…) :
+→ ${transfo}
+${points ? `
+* Les points principaux de mon parcours (événements, prises de conscience, étapes importantes) :
+→ ${points}` : ''}${pourquoi ? `
+* Pourquoi je me suis lancé(e) en ligne (motivations profondes) :
+→ ${pourquoi}` : ''}
+
+Consignes importantes :
+– Ne rien inventer
+– Ne pas enjoliver mon histoire
+– Respecter ma personnalité et mon ton
+– Utiliser des phrases simples, naturelles et fluides
+– Mettre l'accent sur la transformation plutôt que sur la performance
+
+N'hésite pas à me poser des questions avant de rédiger si tu as besoin de plus de précisions, afin de créer un storytelling complet et le plus authentique possible.`,
+
+  produit: (niche) => `Tu es mon consultant en création d'offres digitales. Je travaille dans la niche : "${niche}".
+
+Aide-moi à trouver le nom parfait pour mon produit digital et à structurer une offre irrésistible dans cette niche.
+
+Pose-moi les questions UNE PAR UNE :
+- Quelle expertise précise j'apporte dans "${niche}"
+- À qui exactement (sous-niche, profil)
+- Quelle transformation concrète j'offre
+- Quel format envisagé (guide PDF, formation vidéo, templates, masterclass...)
+- Quel niveau de prix visé
+
+Puis propose-moi :
+✦ 5 idées de noms créatifs avec leur justification
+✦ 1 phrase de présentation de l'offre ultra-percutante
+✦ 3 points de valeur clés à mettre en avant
+
+Adapte tout à la niche "${niche}". Commence par ta première question.`,
+
+  hooks: (niche) => `Tu es mon expert en copywriting et accroches marketing. Je travaille dans la niche : "${niche}".
+
+Aide-moi à créer des hooks (accroches) percutants pour mes stories Instagram, mes posts et mes emails dans cette niche.
+
+D'abord, pose-moi 2 ou 3 questions pour mieux comprendre :
+- Le problème principal de ma cible dans "${niche}"
+- Le résultat que j'apporte
+- Mon style de communication (direct, doux, humoristique...)
+
+Puis génère 15 accroches variées adaptées à "${niche}" :
+- 3 questions provocantes
+- 3 commençant par un chiffre
+- 3 confessions / aveux
+- 3 promesses de transformation
+- 3 against the grain (contre-intuatives)
+
+Pour chaque hook, explique brièvement pourquoi il fonctionne psychologiquement.
+
+Commence par tes questions.`,
+
+  valeur: (niche) => `Tu es mon stratège en positionnement de marque personnelle. Je travaille dans la niche : "${niche}".
+
+Aide-moi à identifier et formuler ma proposition de valeur unique — ce qui me différencie vraiment de tous les autres créateurs dans "${niche}".
+
+Pose-moi les questions UNE PAR UNE :
+- Ce que je fais différemment des autres dans "${niche}"
+- Mon parcours et expérience unique
+- Les résultats concrets que j'obtiens pour mes clients
+- Ce que mes clients ou proches disent de moi
+- Ma "méthode" ou approche particulière
+
+Après 5 échanges, génère :
+✦ Mon USP (proposition de valeur unique) en 1 à 2 phrases puissantes
+✦ Mon positionnement en 1 phrase
+✦ 3 façons concrètes de me différencier dans "${niche}"
+
+Commence par ta première question.`,
+
+  prix: (niche) => `Tu es mon consultante en stratégie de prix pour les produits digitaux. Je travaille dans la niche : "${niche}".
+
+Aide-moi à définir le prix juste et le bon positionnement tarifaire pour mon produit digital.
+
+Pose-moi les questions UNE PAR UNE :
+- Le type de produit que je crée (guide, formation, template, coaching...)
+- La transformation que j'apporte concrètement
+- Mon audience cible et sa capacité financière dans "${niche}"
+- Ce que font les concurrents dans "${niche}" (si je le sais)
+- Mes objectifs de revenus mensuels
+
+Puis donne-moi :
+✦ Une fourchette de prix recommandée avec justification
+✦ La logique psychologique du prix (pourquoi ce montant)
+✦ Comment présenter ce prix pour qu'il semble évident et juste
+✦ Idées de gamme de prix (entrée / milieu / premium)
+
+Commence par ta première question.`,
+
+  contenu: (niche) => `Tu es mon stratège contenu pour les réseaux sociaux, spécialisé dans les produits digitaux. Je travaille dans la niche : "${niche}".
+
+Aide-moi à créer un plan de contenu pour générer de la visibilité et des ventes dans cette niche.
+
+Pose-moi 2 ou 3 questions d'abord :
+- Mon niveau de création de contenu actuel
+- Les plateformes que j'utilise (Instagram, TikTok, YouTube...)
+- Mon objectif principal (visibilité, ventes, communauté...)
+
+Puis génère pour moi :
+✦ 20 idées de posts / stories adaptées à "${niche}"
+  - 5 posts éducatifs (partager de la valeur)
+  - 5 posts inspirationnels (mon histoire, mes valeurs)
+  - 5 posts de vente (présenter mon produit)
+  - 5 posts d'engagement (questions, sondages, débats)
+✦ 1 calendrier de contenu sur 2 semaines
+
+Commence par tes questions.`,
+
+  email: (niche) => `Tu es mon copywriter spécialisé dans les séquences email pour produits digitaux. Je travaille dans la niche : "${niche}".
+
+Aide-moi à créer une séquence email de bienvenue + vente pour mon produit digital dans cette niche.
+
+Pose-moi les questions UNE PAR UNE :
+- Mon produit et sa transformation principale
+- Ma cible dans "${niche}" et son problème n°1
+- Mon style de communication
+- Le nombre d'emails souhaités dans la séquence
+
+Puis génère ma séquence email complète adaptée à "${niche}" avec pour chaque email :
+✦ L'objet (accrocheur, taux d'ouverture élevé)
+✦ Le corps du mail (structure : accroche → histoire → valeur → CTA)
+✦ L'objectif de cet email dans la séquence
+
+Commence par ta première question.`
+};
+
+const MODULE_LABELS = {
+  avatar: 'Avatar client',
+  storytelling: 'Storytelling',
+  produit: 'Nom & offre',
+  hooks: 'Hooks & accroches',
+  valeur: 'Valeur unique',
+  prix: 'Prix & positionnement',
+  contenu: 'Idées de contenu',
+  email: 'Email de vente'
+};
+
+let currentNiche = '';
+let currentModule = '';
+
+function setNiche(el, val) {
+  document.querySelectorAll('.tag').forEach(t => t.classList.remove('selected'));
+  el.classList.add('selected');
+  document.getElementById('niche-input').value = val;
+  checkNiche();
+}
+
+function checkNiche() {
+  const val = document.getElementById('niche-input').value.trim();
+  currentNiche = val;
+  document.getElementById('btn-step1').disabled = val.length < 2;
+  // deselect tags if manually typed
+  if (val) {
+    document.querySelectorAll('.tag').forEach(t => {
+      if (t.textContent.trim() !== val) t.classList.remove('selected');
+    });
+  }
+}
+
+function goStep1() {
+  document.getElementById('screen-1').classList.add('active');
+  document.getElementById('screen-2').classList.remove('active');
+  document.getElementById('screen-3').classList.remove('active');
+  setStepState(1);
+}
+
+function goStep2() {
+  if (!currentNiche) return;
+  document.getElementById('niche-display-2').textContent = currentNiche;
+  document.getElementById('screen-1').classList.remove('active');
+  document.getElementById('screen-2').classList.add('active');
+  document.getElementById('screen-2b').classList.remove('active');
+  document.getElementById('screen-2c').classList.remove('active');
+  document.getElementById('screen-3').classList.remove('active');
+  setStepState(2);
+  document.querySelectorAll('.mod-card').forEach(c => c.classList.remove('selected'));
+  currentModule = '';
+  document.getElementById('btn-step2').disabled = true;
+}
+
+function goStep3() {
+  if (!currentModule) return;
+  if (currentModule === 'storytelling') {
+    document.getElementById('niche-display-2b').textContent = currentNiche;
+    document.getElementById('screen-2').classList.remove('active');
+    document.getElementById('screen-2b').classList.add('active');
+    setStepState(2);
+    updateStoryDots();
+    return;
+  }
+  if (currentModule === 'avatar') {
+    document.getElementById('niche-display-2c').textContent = currentNiche;
+    document.getElementById('screen-2').classList.remove('active');
+    document.getElementById('screen-2c').classList.add('active');
+    setStepState(2);
+    updateAvatarDots();
+    return;
+  }
+  showPromptScreen(PROMPTS[currentModule](currentNiche));
+}
+
+function goStep3FromAvatar() {
+  const activite = document.getElementById('av-activite').value.trim();
+  const probleme = document.getElementById('av-probleme').value.trim();
+  const observations = document.getElementById('av-observations').value.trim();
+  const objectif = document.getElementById('av-objectif').value.trim();
+  if (!activite || !probleme || !observations || !objectif) return;
+  const prompt = PROMPTS.avatar(currentNiche, activite, probleme, observations, objectif);
+  document.getElementById('screen-2c').classList.remove('active');
+  showPromptScreen(prompt);
+}
+
+function updateAvatarDots() {
+  const fields = ['av-activite', 'av-probleme', 'av-observations', 'av-objectif'];
+  let filled = 0;
+  fields.forEach((id, i) => {
+    const val = document.getElementById(id).value.trim();
+    const dot = document.getElementById('av-dot' + (i+1));
+    if (val.length > 0) { dot.classList.add('filled'); filled++; }
+    else { dot.classList.remove('filled'); }
+  });
+  document.getElementById('btn-step2c').disabled = filled < 4;
+}
+
+function goStep3FromStory() {
+  const auj = document.getElementById('st-aujourd').value.trim();
+  const avant = document.getElementById('st-avant').value.trim();
+  const transfo = document.getElementById('st-transfo').value.trim();
+  const points = document.getElementById('st-points').value.trim();
+  const pourquoi = document.getElementById('st-pourquoi').value.trim();
+  if (!auj || !avant || !transfo) return;
+  const prompt = PROMPTS.storytelling(currentNiche, auj, avant, transfo, points, pourquoi);
+  document.getElementById('screen-2b').classList.remove('active');
+  showPromptScreen(prompt);
+}
+
+function showPromptScreen(prompt) {
+  document.getElementById('prompt-output').textContent = prompt;
+  document.getElementById('niche-display-3').textContent = currentNiche;
+  document.getElementById('module-display-3').textContent = MODULE_LABELS[currentModule];
+  document.getElementById('screen-2').classList.remove('active');
+  document.getElementById('screen-3').classList.add('active');
+  setStepState(3);
+  document.getElementById('copy-label').textContent = 'Copier le prompt';
+  document.getElementById('copy-icon').textContent = '📋';
+  document.getElementById('copy-btn').classList.remove('copied');
+}
+
+function updateStoryDots() {
+  const fields = ['st-aujourd', 'st-avant', 'st-transfo', 'st-points', 'st-pourquoi'];
+  let filled = 0;
+  fields.forEach((id, i) => {
+    const val = document.getElementById(id).value.trim();
+    const dot = document.getElementById('dot' + (i+1));
+    if (val.length > 0) { dot.classList.add('filled'); filled++; }
+    else { dot.classList.remove('filled'); }
+  });
+  const auj = document.getElementById('st-aujourd').value.trim();
+  const avant = document.getElementById('st-avant').value.trim();
+  const transfo = document.getElementById('st-transfo').value.trim();
+  document.getElementById('btn-step2b').disabled = !(auj && avant && transfo);
+}
+
+function selectMod(el) {
+  document.querySelectorAll('.mod-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  currentModule = el.dataset.module;
+  document.getElementById('btn-step2').disabled = false;
+}
+
+function setStepState(active) {
+  [1,2,3].forEach(n => {
+    const el = document.getElementById('s' + n);
+    el.classList.remove('active', 'done');
+    if (n < active) el.classList.add('done');
+    else if (n === active) el.classList.add('active');
+  });
+}
+
+async function copyPrompt() {
+  const text = document.getElementById('prompt-output').textContent;
+  try {
+    await navigator.clipboard.writeText(text);
+    document.getElementById('copy-label').textContent = 'Copié !';
+    document.getElementById('copy-icon').textContent = '✅';
+    document.getElementById('copy-btn').classList.add('copied');
+    setTimeout(() => {
+      document.getElementById('copy-label').textContent = 'Copier le prompt';
+      document.getElementById('copy-icon').textContent = '📋';
+      document.getElementById('copy-btn').classList.remove('copied');
+    }, 3000);
+  } catch(e) {
+    alert('Sélectionne et copie manuellement le texte ci-dessus.');
+  }
+}
+</script>
+</body>
+</html>
