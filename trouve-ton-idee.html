@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Assistante IA Cosmic — Tout est déjà en toi ✦ | Module 0</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;1,400&display=swap');
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --violet: #8c52ff;
+    --violet-light: #ede8ff;
+    --violet-dark: #5a32b0;
+    --text: #1a1a2e;
+    --text-muted: #6b6b8a;
+    --bg: #faf9ff;
+    --bg-card: #ffffff;
+    --border: #e8e3f5;
+    --radius: 14px;
+    --radius-sm: 8px;
+    --shadow: 0 4px 24px rgba(140,82,255,0.08);
+    --green: #2a9d6f;
+    --green-light: #d4f4e8;
+  }
+  body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+  /* ── TOPBAR ── */
+  .topbar { background: white; border-bottom: 1px solid var(--border); padding: 14px 24px; display: flex; align-items: center; gap: 12px; position: sticky; top: 0; z-index: 10; }
+  .topbar-logo { width: 34px; height: 34px; border-radius: 50%; background: var(--violet); display: flex; align-items: center; justify-content: center; color: white; font-size: 16px; flex-shrink: 0; }
+  .topbar-name { font-size: 15px; font-weight: 600; color: var(--text); }
+  .topbar-sub { font-size: 12px; color: var(--text-muted); }
+  .topbar-badge { margin-left: auto; background: var(--violet-light); color: var(--violet-dark); font-size: 11px; font-weight: 500; padding: 4px 10px; border-radius: 20px; }
+
+  /* ── LAYOUT ── */
+  .container { max-width: 680px; margin: 0 auto; padding: 32px 20px 60px; }
+
+  /* ── HERO ── */
+  .hero { text-align: center; padding: 32px 0 28px; }
+  .hero-badge { display: inline-flex; align-items: center; gap: 6px; background: var(--violet-light); color: var(--violet-dark); font-size: 12px; font-weight: 500; padding: 5px 14px; border-radius: 20px; margin-bottom: 16px; }
+  .hero h1 { font-family: 'Playfair Display', serif; font-size: 30px; font-weight: 400; color: var(--text); line-height: 1.3; margin-bottom: 12px; }
+  .hero h1 em { color: var(--violet); font-style: italic; }
+  .hero p { font-size: 15px; color: var(--text-muted); line-height: 1.7; max-width: 500px; margin: 0 auto 24px; }
+
+  /* ── FUNNEL PROGRESS ── */
+  .funnel-nav { display: flex; align-items: center; gap: 0; margin-bottom: 28px; overflow-x: auto; padding-bottom: 4px; }
+  .funnel-step { display: flex; flex-direction: column; align-items: center; gap: 5px; cursor: pointer; flex-shrink: 0; }
+  .funnel-num { width: 32px; height: 32px; border-radius: 50%; border: 2px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; color: var(--text-muted); background: white; transition: all 0.2s; }
+  .funnel-label { font-size: 10px; color: var(--text-muted); text-align: center; max-width: 60px; line-height: 1.3; }
+  .funnel-step.active .funnel-num { background: var(--violet); border-color: var(--violet); color: white; }
+  .funnel-step.active .funnel-label { color: var(--violet-dark); font-weight: 500; }
+  .funnel-step.done .funnel-num { background: var(--green-light); border-color: var(--green); color: var(--green); }
+  .funnel-step.done .funnel-label { color: var(--green); }
+  .funnel-line { flex: 1; height: 2px; background: var(--border); min-width: 16px; transition: background 0.3s; }
+  .funnel-line.done { background: var(--green); }
+
+  /* ── CARDS ── */
+  .card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 28px; box-shadow: var(--shadow); margin-bottom: 16px; }
+  .card-eyebrow { font-size: 11px; font-weight: 600; color: var(--violet); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; }
+  .card-title { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 400; color: var(--text); margin-bottom: 8px; }
+  .card-sub { font-size: 14px; color: var(--text-muted); line-height: 1.65; margin-bottom: 22px; }
+
+  /* ── FIELDS ── */
+  .field { margin-bottom: 20px; }
+  .field label { font-size: 13px; font-weight: 500; color: var(--text); display: block; margin-bottom: 4px; }
+  .field .hint { font-size: 11px; color: var(--text-muted); margin-bottom: 7px; line-height: 1.5; }
+  .field textarea, .field input[type="text"] {
+    width: 100%; padding: 11px 14px;
+    border: 1.5px solid var(--border); border-radius: var(--radius-sm);
+    font-family: 'DM Sans', sans-serif; font-size: 14px; color: var(--text);
+    background: white; resize: vertical; min-height: 80px; line-height: 1.6;
+    transition: border-color 0.2s; outline: none;
+  }
+  .field input[type="text"] { min-height: unset; }
+  .field textarea:focus, .field input[type="text"]:focus { border-color: var(--violet); }
+  .field textarea::placeholder, .field input::placeholder { color: #b0b0c8; font-size: 13px; }
+
+  /* ── TWO COL FIELDS ── */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .two-col .field { margin-bottom: 0; }
+  .col-label { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; padding: 6px 12px; border-radius: 20px; margin-bottom: 10px; display: inline-block; }
+  .col-label.want { background: #d4f4e8; color: var(--green); }
+  .col-label.no-more { background: #ffe4e4; color: #c0392b; }
+
+  /* ── TAGS SELECTABLE ── */
+  .tag-cloud { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 10px; }
+  .sel-tag { padding: 6px 13px; border: 1px solid var(--border); border-radius: 20px; font-size: 12px; color: var(--text-muted); background: white; cursor: pointer; transition: all 0.15s; user-select: none; }
+  .sel-tag:hover { border-color: var(--violet); color: var(--violet); background: var(--violet-light); }
+  .sel-tag.on { border-color: var(--violet); color: var(--violet); background: var(--violet-light); font-weight: 500; }
+  .field .tag-hint { font-size: 11px; color: var(--text-muted); margin-bottom: 8px; }
+
+  /* ── FORMAT CARDS ── */
+  .format-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 10px; margin-top: 4px; }
+  .format-card { border: 1.5px solid var(--border); border-radius: var(--radius-sm); padding: 12px 10px; text-align: center; cursor: pointer; background: white; transition: all 0.15s; }
+  .format-card:hover { border-color: var(--violet); background: var(--violet-light); }
+  .format-card.on { border-color: var(--violet); background: var(--violet-light); }
+  .format-card .f-icon { font-size: 20px; display: block; margin-bottom: 5px; }
+  .format-card .f-name { font-size: 12px; font-weight: 500; color: var(--text); }
+  .format-card .f-desc { font-size: 10px; color: var(--text-muted); margin-top: 2px; line-height: 1.3; }
+  .format-card.on .f-name { color: var(--violet-dark); }
+
+  /* ── PROGRESS BAR ── */
+  .field-progress { display: flex; gap: 5px; margin-bottom: 18px; }
+  .fp-dot { height: 4px; flex: 1; border-radius: 2px; background: var(--border); transition: background 0.3s; }
+  .fp-dot.filled { background: var(--violet); }
+
+  /* ── BUTTONS ── */
+  .btn-primary { display: block; width: 100%; padding: 14px; background: var(--violet); color: white; font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 500; border: none; border-radius: var(--radius-sm); cursor: pointer; transition: all 0.15s; text-align: center; }
+  .btn-primary:hover { background: var(--violet-dark); transform: translateY(-1px); }
+  .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+  .btn-secondary { display: inline-flex; align-items: center; gap: 6px; padding: 9px 16px; border: 1.5px solid var(--border); border-radius: var(--radius-sm); font-family: 'DM Sans', sans-serif; font-size: 13px; color: var(--text-muted); background: white; cursor: pointer; transition: all 0.15s; margin-top: 10px; }
+  .btn-secondary:hover { border-color: var(--violet); color: var(--violet); }
+
+  /* ── PROMPT RESULT ── */
+  .prompt-box { background: #f7f5ff; border: 1.5px solid var(--violet-light); border-radius: var(--radius-sm); padding: 20px; font-size: 13px; line-height: 1.75; color: var(--text); white-space: pre-wrap; word-break: break-word; max-height: 360px; overflow-y: auto; font-family: 'DM Sans', sans-serif; margin-bottom: 16px; }
+  .copy-btn { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 13px; background: var(--violet); color: white; border: none; border-radius: var(--radius-sm); font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.15s; margin-bottom: 12px; }
+  .copy-btn:hover { background: var(--violet-dark); }
+  .copy-btn.copied { background: var(--green); }
+  .open-claude-btn { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 13px; background: white; color: var(--text); border: 1.5px solid var(--border); border-radius: var(--radius-sm); font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.15s; text-decoration: none; }
+  .open-claude-btn:hover { border-color: var(--violet); color: var(--violet); }
+
+  /* ── HOW STEPS ── */
+  .how-steps { display: flex; flex-direction: column; gap: 12px; margin-top: 20px; }
+  .how-step { display: flex; align-items: flex-start; gap: 12px; }
+  .how-num { width: 26px; height: 26px; border-radius: 50%; background: var(--violet); color: white; font-size: 12px; font-weight: 600; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+  .how-text { font-size: 13px; line-height: 1.6; color: var(--text); }
+  .how-text strong { color: var(--violet-dark); }
+
+  /* ── OPTIONAL TAG ── */
+  .opt { font-size: 10px; color: var(--text-muted); background: var(--bg); border: 1px solid var(--border); border-radius: 10px; padding: 1px 7px; margin-left: 6px; vertical-align: middle; }
+
+  /* ── SCREENS ── */
+  .screen { display: none; }
+  .screen.active { display: block; }
+
+  /* ── NEXT TOOL BOX ── */
+  .next-tool { background: linear-gradient(135deg, #f0ebff, #e8f4ff); border: 1px solid var(--violet-light); border-radius: var(--radius); padding: 20px; margin-top: 16px; text-align: center; }
+  .next-tool h3 { font-size: 16px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
+  .next-tool p { font-size: 13px; color: var(--text-muted); line-height: 1.6; margin-bottom: 14px; }
+  .next-tool a { display: inline-block; padding: 10px 22px; background: var(--violet); color: white; border-radius: var(--radius-sm); font-size: 14px; font-weight: 500; text-decoration: none; transition: all 0.15s; }
+  .next-tool a:hover { background: var(--violet-dark); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 520px) {
+    .container { padding: 20px 14px 48px; }
+    .card { padding: 20px; }
+    .hero h1 { font-size: 24px; }
+    .two-col { grid-template-columns: 1fr; }
+    .format-grid { grid-template-columns: repeat(2, 1fr); }
+    .funnel-label { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-logo">✦</div>
+  <div>
+    <div class="topbar-name">Assistante IA Cosmic — Tout est déjà en toi ✦</div>
+    <div class="topbar-sub">30 Jours Top Départ — Module 0</div>
+  </div>
+  <div class="topbar-badge">🌱 Trouve ton idée</div>
+</div>
+
+<div class="container">
+
+  <!-- ══ SCREEN ACCUEIL ══ -->
+  <div class="screen active" id="screen-home">
+    <div class="hero">
+      <div class="hero-badge">✦ Assistante IA Cosmic — Tout est déjà en toi</div>
+      <h1>Tu n'as pas encore d'idée ?<br><em>C'est exactement là qu'on commence.</em></h1>
+      <p>Beaucoup de créatrices pensent qu'elles n'ont rien à vendre. En réalité, ton idée de produit digital est déjà en toi — elle attend juste d'être révélée. Cet outil va t'aider à la trouver, pas à pas.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-eyebrow">Comment ça marche</div>
+      <div class="card-title">Un entonnoir en 8 étapes</div>
+      <div class="card-sub">On part de qui tu es pour arriver à une idée de produit concrète, validée, et adaptée à ta personnalité. À la fin, tu as un prompt personnalisé à copier dans Claude.ai — et ton idée sort de l'autre côté.</div>
+      <div class="how-steps">
+        <div class="how-step"><div class="how-num">1</div><div class="how-text"><strong>Ce que tu veux & ce que tu ne veux plus</strong> — tes aspirations et tes contraintes</div></div>
+        <div class="how-step"><div class="how-num">2</div><div class="how-text"><strong>Tes valeurs profondes</strong> — ce qui te fait vibrer vraiment</div></div>
+        <div class="how-step"><div class="how-num">3</div><div class="how-text"><strong>Tes richesses cachées</strong> — hobbies, compétences, expériences</div></div>
+        <div class="how-step"><div class="how-num">4</div><div class="how-text"><strong>Ce que les autres te demandent</strong> — ta crédibilité naturelle</div></div>
+        <div class="how-step"><div class="how-num">5</div><div class="how-text"><strong>Ta transformation personnelle</strong> — ce que tu as surmonté</div></div>
+        <div class="how-step"><div class="how-num">6</div><div class="how-text"><strong>Ton énergie de création</strong> — le format qui te ressemble</div></div>
+        <div class="how-step"><div class="how-num">7</div><div class="how-text"><strong>Ton idée révélée</strong> — 3 idées concrètes générées</div></div>
+        <div class="how-step"><div class="how-num">8</div><div class="how-text"><strong>Validation & format</strong> — est-ce que ça se vend ? quel format ?</div></div>
+      </div>
+    </div>
+    <button class="btn-primary" onclick="startFunnel()">Je commence mon exploration →</button>
+  </div>
+
+  <!-- ══ SCREEN FUNNEL ══ -->
+  <div class="screen" id="screen-funnel">
+
+    <!-- Navigation entonnoir -->
+    <div class="funnel-nav" id="funnel-nav"></div>
+
+    <!-- ÉTAPE 1 -->
+    <div class="funnel-screen active" id="f1">
+      <div class="card">
+        <div class="card-eyebrow">Étape 1 sur 8</div>
+        <div class="card-title">Ce que tu veux — et ce que tu ne veux plus</div>
+        <div class="card-sub">Avant de trouver ton idée, posons les bases. D'un côté, la vie que tu construis. De l'autre, les contraintes que tu laisses derrière toi. Les deux sont aussi importants.</div>
+
+        <div class="field-progress" id="fp1"></div>
+
+        <div class="two-col">
+          <div>
+            <span class="col-label want">✓ Ce que je veux</span>
+            <div class="field">
+              <label>Dans ma vie professionnelle</label>
+              <div class="hint">Liberté d'horaires, travailler de chez toi, être ta propre patronne, revenus passifs...</div>
+              <textarea id="f1-veut-pro" placeholder="Ex : Travailler à mes heures, ne plus avoir de patron, gagner de l'argent même quand je dors..." oninput="checkStep(1)"></textarea>
+            </div>
+            <div class="field">
+              <label>Dans ma vie personnelle</label>
+              <div class="hint">Être présente pour tes enfants, voyager, avoir du temps pour toi...</div>
+              <textarea id="f1-veut-perso" placeholder="Ex : Déposer mes enfants à l'école, partir en vacances quand je veux, ne plus courir le matin..." oninput="checkStep(1)"></textarea>
+            </div>
+          </div>
+          <div>
+            <span class="col-label no-more">✗ Ce que je ne veux plus</span>
+            <div class="field">
+              <label>Les contraintes professionnelles</label>
+              <div class="hint">CDI, horaires fixes, management, trajet, réunions inutiles...</div>
+              <textarea id="f1-plus-pro" placeholder="Ex : Les réunions à 8h, rendre des comptes, le trajet en métro, les évaluations annuelles, ne pas pouvoir décider..." oninput="checkStep(1)"></textarea>
+            </div>
+            <div class="field">
+              <label>Les situations personnelles</label>
+              <div class="hint">Laisser tes enfants le matin, rentrer épuisée, manquer de temps...</div>
+              <textarea id="f1-plus-perso" placeholder="Ex : Confier mon bébé à la crèche en pleurant, rentrer à 19h épuisée, ne jamais avoir de temps pour moi..." oninput="checkStep(1)"></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="btn-primary" id="btn-f1" disabled onclick="goFunnel(2)">Étape suivante →</button>
+    </div>
+
+    <!-- ÉTAPE 2 -->
+    <div class="funnel-screen" id="f2">
+      <div class="card">
+        <div class="card-eyebrow">Étape 2 sur 8</div>
+        <div class="card-title">Tes valeurs profondes</div>
+        <div class="card-sub">Coche les valeurs qui te parlent vraiment — celles que tu ressens dans le ventre, pas celles que tu penses "devoir" avoir.</div>
+
+        <div class="field">
+          <div class="tag-hint">Coche tout ce qui résonne pour toi :</div>
+          <div class="tag-cloud" id="valeurs-tags">
+            <span class="sel-tag" onclick="toggleTag(this)">Liberté</span>
+            <span class="sel-tag" onclick="toggleTag(this)">Authenticité</span>
+            <span class="sel-tag" onclick="toggleTag(this)">Famille</span>
+            <span class="sel-tag" onclick="toggleTag(this)">Créativité</span>
+            <span class="sel-tag" onclick="toggleTag(this)">Transmission</span>
+            <span class="sel-tag" onclick="toggleTag(this)">Impact</span>
+            <span class="sel-tag" onclick="toggleTag(this)">Indépendance</span>
+            <span class="sel-tag" onclick="toggleTag(this)">Bienveillance</span>
+            <span class="sel-tag" onclick="toggleTag(this)">Épanouissement</span>
+            <span class="sel-tag" onclick="toggleTag(this)">Simplicité</span>
+            <span class="sel-tag" onclick="toggleTag(this)">Courage</span>
+            <span class="sel-tag" onclick="toggleTag(this)">Apprentissage</span>
+            <span class="sel-tag" onclick="toggleTag(this)">Connexion humaine</span>
+            <span class="sel-tag" onclick="toggleTag(this)">Nature & bien-être</span>
+            <span class="sel-tag" onclick="toggleTag(this)">Beauté & esthétique</span>
+            <span class="sel-tag" onclick="toggleTag(this)">Santé</span>
+            <span class="sel-tag" onclick="toggleTag(this)">Aventure</span>
+            <span class="sel-tag" onclick="toggleTag(this)">Sécurité</span>
+          </div>
+        </div>
+
+        <div class="field" style="margin-top:16px">
+          <label>Une valeur qui n'est pas dans la liste <span class="opt">optionnel</span></label>
+          <input type="text" id="f2-valeur-custom" placeholder="Ex : Spiritualité, Justice, Élégance..." oninput="checkStep(2)" />
+        </div>
+
+        <div class="field">
+          <label>Ce qui te met vraiment en colère dans le monde</label>
+          <div class="hint">Souvent, là où il y a de la colère, il y a une valeur forte. Ce qui t'énerve dit beaucoup sur ce qui compte pour toi.</div>
+          <textarea id="f2-colere" placeholder="Ex : Voir des femmes sacrifier leur vie pour un employeur qui les oubliera, les inégalités de revenus, les gens qui n'osent pas être eux-mêmes..." oninput="checkStep(2)"></textarea>
+        </div>
+      </div>
+      <button class="btn-primary" id="btn-f2" disabled onclick="goFunnel(3)">Étape suivante →</button>
+      <button class="btn-secondary" onclick="goFunnel(1)">← Retour</button>
+    </div>
+
+    <!-- ÉTAPE 3 -->
+    <div class="funnel-screen" id="f3">
+      <div class="card">
+        <div class="card-eyebrow">Étape 3 sur 8</div>
+        <div class="card-title">Tes richesses cachées</div>
+        <div class="card-sub">On sous-estime toujours ce qu'on sait faire naturellement. Ce qui te semble évident à toi peut transformer la vie de quelqu'un d'autre.</div>
+
+        <div class="field-progress" id="fp3"></div>
+
+        <div class="field">
+          <label>✦ Tes hobbies & passions</label>
+          <div class="hint">Même les plus "banals" — cuisine, déco, couture, lecture, jardinage, fitness, jeux vidéo, voyage...</div>
+          <textarea id="f3-hobbies" placeholder="Ex : Je fais du yoga depuis 5 ans, j'adore cuisiner des plats sains, je collectionne les plantes, je lis 2 livres par mois..." oninput="checkStep(3)"></textarea>
+        </div>
+
+        <div class="field">
+          <label>✦ Tes compétences professionnelles ou acquises</label>
+          <div class="hint">Tout ce que tu sais faire grâce à ton parcours — même si tu n'as pas de diplôme officiel dans ce domaine.</div>
+          <textarea id="f3-competences" placeholder="Ex : Gestion d'équipe, comptabilité, service client, Excel, réseaux sociaux, langues étrangères, vente, organisation..." oninput="checkStep(3)"></textarea>
+        </div>
+
+        <div class="field">
+          <label>Tes expériences de vie marquantes <span class="opt">optionnel</span></label>
+          <div class="hint">Grossesse, expatriation, maladie, reconversion, divorce, deuil, parentalité, création d'entreprise...</div>
+          <textarea id="f3-experiences" placeholder="Ex : J'ai vécu 3 ans en Australie, j'ai traversé un burn-out, j'ai eu une grossesse difficile, j'ai élevé 3 enfants seule..." oninput="checkStep(3)"></textarea>
+        </div>
+      </div>
+      <button class="btn-primary" id="btn-f3" disabled onclick="goFunnel(4)">Étape suivante →</button>
+      <button class="btn-secondary" onclick="goFunnel(2)">← Retour</button>
+    </div>
+
+    <!-- ÉTAPE 4 -->
+    <div class="funnel-screen" id="f4">
+      <div class="card">
+        <div class="card-eyebrow">Étape 4 sur 8</div>
+        <div class="card-title">Ce que les autres te demandent</div>
+        <div class="card-sub">Les questions qu'on te pose sont souvent l'indice le plus précieux. Elles révèlent ta crédibilité naturelle — celle que tu n'as pas encore reconnue.</div>
+
+        <div class="field-progress" id="fp4"></div>
+
+        <div class="field">
+          <label>✦ Les questions que ton entourage te pose souvent</label>
+          <div class="hint">Famille, amis, collègues — qu'est-ce qu'ils te demandent régulièrement ?</div>
+          <textarea id="f4-questions" placeholder='Ex : "Comment tu fais pour être aussi organisée ?", "Tu peux me montrer comment tu fais tes stories ?", "C&apos;est quoi ta recette pour les enfants difficiles ?"...' oninput="checkStep(4)"></textarea>
+        </div>
+
+        <div class="field">
+          <label>✦ Ce pour quoi on te complimente ou te remercie</label>
+          <div class="hint">Même les petits compliments du quotidien comptent.</div>
+          <textarea id="f4-compliments" placeholder="Ex : On me dit que je suis très pédagogue, que mes explications sont claires, que je trouve toujours des solutions originales..." oninput="checkStep(4)"></textarea>
+        </div>
+
+        <div class="field">
+          <label>Si tu devais aider quelqu'un gratuitement demain, dans quoi ? <span class="opt">optionnel</span></label>
+          <div class="hint">Instinctivement, sans réfléchir — dans quoi tu te sentirais légitime ?</div>
+          <textarea id="f4-aider" placeholder="Ex : Aider une amie à s'organiser avec ses enfants, montrer à ma sœur comment faire du sport à la maison, expliquer comment je gère mon budget..." oninput="checkStep(4)"></textarea>
+        </div>
+      </div>
+      <button class="btn-primary" id="btn-f4" disabled onclick="goFunnel(5)">Étape suivante →</button>
+      <button class="btn-secondary" onclick="goFunnel(3)">← Retour</button>
+    </div>
+
+    <!-- ÉTAPE 5 -->
+    <div class="funnel-screen" id="f5">
+      <div class="card">
+        <div class="card-eyebrow">Étape 5 sur 8</div>
+        <div class="card-title">Ta transformation personnelle</div>
+        <div class="card-sub">Ce que tu as traversé et surmonté est l'une de tes plus grandes ressources. Les gens n'achètent pas un produit — ils achètent une transformation. Et tu l'as déjà vécue.</div>
+
+        <div class="field-progress" id="fp5"></div>
+
+        <div class="field">
+          <label>✦ Un problème que tu as résolu dans ta vie</label>
+          <div class="hint">Quelque chose qui te semblait insurmontable et que tu as finalement traversé.</div>
+          <textarea id="f5-probleme" placeholder="Ex : J'ai perdu 15kg après mes grossesses, j'ai arrêté de fumer, j'ai remboursé mes dettes, j'ai appris l'anglais seule, j'ai surmonté l'anxiété..." oninput="checkStep(5)"></textarea>
+        </div>
+
+        <div class="field">
+          <label>✦ Ce que tu aurais aimé avoir quand tu traversais ça</label>
+          <div class="hint">Un guide, une méthode, quelqu'un qui t'explique, un outil, un accompagnement...</div>
+          <textarea id="f5-besoin" placeholder="Ex : J'aurais aimé avoir un plan simple étape par étape, quelqu'un qui m'explique sans jargon, une communauté qui me comprend..." oninput="checkStep(5)"></textarea>
+        </div>
+
+        <div class="field">
+          <label>Ce que tu ferais différemment si tu recommençais <span class="opt">optionnel</span></label>
+          <textarea id="f5-different" placeholder="Ex : Je commencerais par les bases, je ne me comparerais pas aux autres, je demanderais de l'aide plus tôt..." oninput="checkStep(5)"></textarea>
+        </div>
+      </div>
+      <button class="btn-primary" id="btn-f5" disabled onclick="goFunnel(6)">Étape suivante →</button>
+      <button class="btn-secondary" onclick="goFunnel(4)">← Retour</button>
+    </div>
+
+    <!-- ÉTAPE 6 -->
+    <div class="funnel-screen" id="f6">
+      <div class="card">
+        <div class="card-eyebrow">Étape 6 sur 8</div>
+        <div class="card-title">Ton énergie de création</div>
+        <div class="card-sub">Il n'y a pas de bon ou mauvais format. Il y a celui qui correspond à ta personnalité — et qui te donnera envie de créer sur la durée.</div>
+
+        <div class="field">
+          <label>Comment tu aimes naturellement partager ou expliquer ?</label>
+          <div class="hint">Coche tout ce qui te ressemble :</div>
+          <div class="tag-cloud" id="energie-tags">
+            <span class="sel-tag" onclick="toggleTag(this)">J'aime écrire</span>
+            <span class="sel-tag" onclick="toggleTag(this)">J'aime parler / expliquer à voix haute</span>
+            <span class="sel-tag" onclick="toggleTag(this)">J'aime créer des visuels</span>
+            <span class="sel-tag" onclick="toggleTag(this)">J'aime faire des listes & schémas</span>
+            <span class="sel-tag" onclick="toggleTag(this)">J'aime enseigner pas à pas</span>
+            <span class="sel-tag" onclick="toggleTag(this)">J'aime la vidéo</span>
+            <span class="sel-tag" onclick="toggleTag(this)">J'aime le format court & dense</span>
+            <span class="sel-tag" onclick="toggleTag(this)">J'aime accompagner individuellement</span>
+          </div>
+        </div>
+
+        <div class="field" style="margin-top:20px">
+          <label>Quel format de produit t'attire le plus ?</label>
+          <div class="hint">Tu peux en choisir plusieurs :</div>
+          <div class="format-grid" id="format-grid">
+            <div class="format-card" onclick="toggleFormat(this)">
+              <span class="f-icon">📄</span>
+              <div class="f-name">Guide PDF</div>
+              <div class="f-desc">Simple, rapide à créer</div>
+            </div>
+            <div class="format-card" onclick="toggleFormat(this)">
+              <span class="f-icon">🎬</span>
+              <div class="f-name">Formation vidéo</div>
+              <div class="f-desc">Modules, leçons filmées</div>
+            </div>
+            <div class="format-card" onclick="toggleFormat(this)">
+              <span class="f-icon">📋</span>
+              <div class="f-name">Template / Modèle</div>
+              <div class="f-desc">Canva, Excel, Notion...</div>
+            </div>
+            <div class="format-card" onclick="toggleFormat(this)">
+              <span class="f-icon">🎙️</span>
+              <div class="f-name">Audio / Podcast</div>
+              <div class="f-desc">Écoutable en déplacement</div>
+            </div>
+            <div class="format-card" onclick="toggleFormat(this)">
+              <span class="f-icon">📅</span>
+              <div class="f-name">Programme / Plan</div>
+              <div class="f-desc">Challenge, 30 jours...</div>
+            </div>
+            <div class="format-card" onclick="toggleFormat(this)">
+              <span class="f-icon">💬</span>
+              <div class="f-name">Coaching / Accompagnement</div>
+              <div class="f-desc">1:1 ou groupe</div>
+            </div>
+            <div class="format-card" onclick="toggleFormat(this)">
+              <span class="f-icon">📚</span>
+              <div class="f-name">E-book</div>
+              <div class="f-desc">Contenu long et structuré</div>
+            </div>
+            <div class="format-card" onclick="toggleFormat(this)">
+              <span class="f-icon">🗂️</span>
+              <div class="f-name">Kit complet</div>
+              <div class="f-desc">Combinaison de ressources</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="field" style="margin-top:16px">
+          <label>Combien de temps as-tu par semaine à consacrer à ton business ? <span class="opt">optionnel</span></label>
+          <div class="tag-cloud">
+            <span class="sel-tag" id="temps-1" onclick="selectTemps(this)">Moins d'1h/jour</span>
+            <span class="sel-tag" id="temps-2" onclick="selectTemps(this)">1 à 2h/jour</span>
+            <span class="sel-tag" id="temps-3" onclick="selectTemps(this)">Demi-journée</span>
+            <span class="sel-tag" id="temps-4" onclick="selectTemps(this)">Journée complète</span>
+          </div>
+        </div>
+      </div>
+      <button class="btn-primary" id="btn-f6" onclick="goFunnel(7)">Étape suivante →</button>
+      <button class="btn-secondary" onclick="goFunnel(5)">← Retour</button>
+    </div>
+
+    <!-- ÉTAPE 7 -->
+    <div class="funnel-screen" id="f7">
+      <div class="card">
+        <div class="card-eyebrow">Étape 7 sur 8</div>
+        <div class="card-title">Ton idée de produit — presque là ✦</div>
+        <div class="card-sub">On approche. Avant de générer ton prompt, une dernière question intuitive. Ne réfléchis pas trop — réponds avec ce qui te vient spontanément.</div>
+
+        <div class="field-progress" id="fp7"></div>
+
+        <div class="field">
+          <label>✦ Si tu devais créer quelque chose aujourd'hui pour aider quelqu'un, ce serait quoi ?</label>
+          <div class="hint">Même vague, même imparfait. Une idée brute, c'est parfait.</div>
+          <textarea id="f7-idee" placeholder="Ex : Un guide pour s'organiser avec un bébé, une formation pour apprendre à cuisiner healthy en 15 min, des templates de budget pour les familles..." oninput="checkStep(7)"></textarea>
+        </div>
+
+        <div class="field">
+          <label>À qui tu voudrais vendre ça ? <span class="opt">optionnel</span></label>
+          <div class="hint">Même approximatif — une personne, un profil, une situation.</div>
+          <textarea id="f7-cible" placeholder="Ex : Des mamans qui reprennent le travail, des débutantes en cuisine, des gens qui veulent quitter leur CDI..." oninput="checkStep(7)"></textarea>
+        </div>
+      </div>
+      <button class="btn-primary" id="btn-f7" disabled onclick="goFunnel(8)">Dernière étape →</button>
+      <button class="btn-secondary" onclick="goFunnel(6)">← Retour</button>
+    </div>
+
+    <!-- ÉTAPE 8 -->
+    <div class="funnel-screen" id="f8">
+      <div class="card">
+        <div class="card-eyebrow">Étape 8 sur 8 — La dernière ✦</div>
+        <div class="card-title">Validation & ambitions</div>
+        <div class="card-sub">Ces dernières questions vont permettre à l'IA de valider ton idée et de te proposer le format le plus adapté à ta situation.</div>
+
+        <div class="field">
+          <label>Est-ce que tu connais des personnes autour de toi qui auraient ce problème ?</label>
+          <div class="tag-cloud">
+            <span class="sel-tag" id="valid-1" onclick="selectValid(this)">Oui, plusieurs</span>
+            <span class="sel-tag" id="valid-2" onclick="selectValid(this)">Oui, quelques-unes</span>
+            <span class="sel-tag" id="valid-3" onclick="selectValid(this)">Je ne sais pas encore</span>
+            <span class="sel-tag" id="valid-4" onclick="selectValid(this)">Non, mais je pense que ça existe</span>
+          </div>
+        </div>
+
+        <div class="field" style="margin-top:16px">
+          <label>Quel prix te semblerait juste pour ton futur produit ? <span class="opt">optionnel</span></label>
+          <div class="tag-cloud">
+            <span class="sel-tag" id="prix-1" onclick="selectPrix(this)">Moins de 20€</span>
+            <span class="sel-tag" id="prix-2" onclick="selectPrix(this)">Entre 20€ et 50€</span>
+            <span class="sel-tag" id="prix-3" onclick="selectPrix(this)">Entre 50€ et 100€</span>
+            <span class="sel-tag" id="prix-4" onclick="selectPrix(this)">Plus de 100€</span>
+            <span class="sel-tag" id="prix-5" onclick="selectPrix(this)">Je ne sais pas</span>
+          </div>
+        </div>
+
+        <div class="field" style="margin-top:16px">
+          <label>Ton objectif de revenus mensuel avec ce produit <span class="opt">optionnel</span></label>
+          <div class="tag-cloud">
+            <span class="sel-tag" id="rev-1" onclick="selectRev(this)">Un complément (200-500€)</span>
+            <span class="sel-tag" id="rev-2" onclick="selectRev(this)">Un demi-salaire (500-1500€)</span>
+            <span class="sel-tag" id="rev-3" onclick="selectRev(this)">Un salaire complet (1500€+)</span>
+            <span class="sel-tag" id="rev-4" onclick="selectRev(this)">Je verrai selon les résultats</span>
+          </div>
+        </div>
+
+        <div class="field" style="margin-top:16px">
+          <label>Ce qui te retient encore de te lancer <span class="opt">optionnel</span></label>
+          <textarea id="f8-frein" placeholder="Ex : Je doute de ma légitimité, j'ai peur que personne n'achète, je ne sais pas par où commencer techniquement..."></textarea>
+        </div>
+      </div>
+      <button class="btn-primary" onclick="generatePrompt()">✦ Générer mon prompt personnalisé</button>
+      <button class="btn-secondary" onclick="goFunnel(7)">← Retour</button>
+    </div>
+
+  </div><!-- end screen-funnel -->
+
+  <!-- ══ SCREEN PROMPT ══ -->
+  <div class="screen" id="screen-prompt">
+    <div class="card">
+      <div class="card-eyebrow">Ton prompt est prêt ✦</div>
+      <div class="card-title">Copie et colle dans Claude.ai</div>
+      <div class="card-sub">Ce prompt contient tout ce que tu viens de remplir. Claude va analyser ton profil complet et te proposer 3 idées de produits concrètes, validées et adaptées à toi.</div>
+
+      <div class="prompt-box" id="prompt-output"></div>
+
+      <button class="copy-btn" id="copy-btn" onclick="copyPrompt()">
+        <span id="copy-icon">📋</span>
+        <span id="copy-label">Copier le prompt</span>
+      </button>
+
+      <a href="https://claude.ai" target="_blank" class="open-claude-btn">🤖 Ouvrir Claude.ai (gratuit)</a>
+
+      <div class="how-steps" style="margin-top:20px">
+        <div class="how-step"><div class="how-num">1</div><div class="how-text">Clique sur <strong>Copier le prompt</strong> ci-dessus</div></div>
+        <div class="how-step"><div class="how-num">2</div><div class="how-text">Ouvre <strong>Claude.ai</strong> — compte gratuit suffisant</div></div>
+        <div class="how-step"><div class="how-num">3</div><div class="how-text"><strong>Colle le prompt</strong> et envoie — Claude te répond avec tes idées</div></div>
+        <div class="how-step"><div class="how-num">4</div><div class="how-text">Note ton idée préférée, puis passe à <strong>l'Assistante Cosmic "Lance ton produit"</strong></div></div>
+      </div>
+    </div>
+
+    <div class="next-tool">
+      <h3>Tu as ton idée ? La suite t'attend ✦</h3>
+      <p>L'Assistante IA Cosmic "Lance ton produit" va t'aider à définir ton avatar client, construire ton storytelling, nommer ton offre et créer tes premiers contenus.</p>
+      <a href="./index.html" target="_blank">Accéder à l'Assistante "Lance ton produit" →</a>
+    </div>
+
+    <button class="btn-secondary" onclick="restartFunnel()">↺ Recommencer l'exploration</button>
+  </div>
+
+</div><!-- end container -->
+
+<script>
+const STEPS = [
+  { label: 'Ce que\nje veux' },
+  { label: 'Mes\nvaleurs' },
+  { label: 'Mes\nrichesses' },
+  { label: 'Ce qu\'on\nme demande' },
+  { label: 'Ma\ntransfo' },
+  { label: 'Mon\nénergie' },
+  { label: 'Mon\nidée' },
+  { label: 'Validation' }
+];
+
+let currentStep = 1;
+
+function buildNav() {
+  const nav = document.getElementById('funnel-nav');
+  nav.innerHTML = '';
+  STEPS.forEach((s, i) => {
+    const n = i + 1;
+    const step = document.createElement('div');
+    step.className = 'funnel-step' + (n === currentStep ? ' active' : n < currentStep ? ' done' : '');
+    step.id = 'fnav-' + n;
+    step.innerHTML = `<div class="funnel-num">${n < currentStep ? '✓' : n}</div><div class="funnel-label">${s.label}</div>`;
+    nav.appendChild(step);
+    if (i < STEPS.length - 1) {
+      const line = document.createElement('div');
+      line.className = 'funnel-line' + (n < currentStep ? ' done' : '');
+      nav.appendChild(line);
+    }
+  });
+}
+
+function startFunnel() {
+  document.getElementById('screen-home').classList.remove('active');
+  document.getElementById('screen-funnel').classList.add('active');
+  currentStep = 1;
+  buildNav();
+  showFunnelStep(1);
+}
+
+function showFunnelStep(n) {
+  document.querySelectorAll('.funnel-screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('f' + n).classList.add('active');
+  currentStep = n;
+  buildNav();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function goFunnel(n) {
+  showFunnelStep(n);
+}
+
+function checkStep(n) {
+  if (n === 1) {
+    const a = document.getElementById('f1-veut-pro').value.trim();
+    const b = document.getElementById('f1-veut-perso').value.trim();
+    const c = document.getElementById('f1-plus-pro').value.trim();
+    const d = document.getElementById('f1-plus-perso').value.trim();
+    document.getElementById('btn-f1').disabled = !(a && b && c && d);
+    updateFP('fp1', [a,b,c,d]);
+  }
+  if (n === 2) {
+    const tags = document.querySelectorAll('#valeurs-tags .sel-tag.on').length;
+    const colere = document.getElementById('f2-colere').value.trim();
+    document.getElementById('btn-f2').disabled = !(tags > 0 && colere);
+  }
+  if (n === 3) {
+    const h = document.getElementById('f3-hobbies').value.trim();
+    const c = document.getElementById('f3-competences').value.trim();
+    document.getElementById('btn-f3').disabled = !(h && c);
+    updateFP('fp3', [h, c, document.getElementById('f3-experiences').value.trim()]);
+  }
+  if (n === 4) {
+    const q = document.getElementById('f4-questions').value.trim();
+    const c = document.getElementById('f4-compliments').value.trim();
+    document.getElementById('btn-f4').disabled = !(q && c);
+    updateFP('fp4', [q, c, document.getElementById('f4-aider').value.trim()]);
+  }
+  if (n === 5) {
+    const p = document.getElementById('f5-probleme').value.trim();
+    const b = document.getElementById('f5-besoin').value.trim();
+    document.getElementById('btn-f5').disabled = !(p && b);
+    updateFP('fp5', [p, b, document.getElementById('f5-different').value.trim()]);
+  }
+  if (n === 7) {
+    const i = document.getElementById('f7-idee').value.trim();
+    document.getElementById('btn-f7').disabled = !i;
+    updateFP('fp7', [i, document.getElementById('f7-cible').value.trim()]);
+  }
+}
+
+function updateFP(id, fields) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.innerHTML = '';
+  fields.forEach(f => {
+    const dot = document.createElement('div');
+    dot.className = 'fp-dot' + (f && f.length > 0 ? ' filled' : '');
+    el.appendChild(dot);
+  });
+}
+
+function toggleTag(el) {
+  el.classList.toggle('on');
+  checkStep(2);
+}
+
+function toggleFormat(el) {
+  el.classList.toggle('on');
+}
+
+function selectTemps(el) {
+  document.querySelectorAll('[id^="temps-"]').forEach(e => e.classList.remove('on'));
+  el.classList.add('on');
+}
+function selectValid(el) {
+  document.querySelectorAll('[id^="valid-"]').forEach(e => e.classList.remove('on'));
+  el.classList.add('on');
+}
+function selectPrix(el) {
+  document.querySelectorAll('[id^="prix-"]').forEach(e => e.classList.remove('on'));
+  el.classList.add('on');
+}
+function selectRev(el) {
+  document.querySelectorAll('[id^="rev-"]').forEach(e => e.classList.remove('on'));
+  el.classList.add('on');
+}
+
+function getSelectedTags(containerId) {
+  return Array.from(document.querySelectorAll('#' + containerId + ' .sel-tag.on')).map(t => t.textContent).join(', ');
+}
+function getSelectedFormats() {
+  return Array.from(document.querySelectorAll('#format-grid .format-card.on')).map(c => c.querySelector('.f-name').textContent).join(', ');
+}
+function getSelectedSingle(prefix) {
+  const el = document.querySelector('[id^="' + prefix + '"].on');
+  return el ? el.textContent : '';
+}
+
+function generatePrompt() {
+  const veut_pro = document.getElementById('f1-veut-pro').value.trim();
+  const veut_perso = document.getElementById('f1-veut-perso').value.trim();
+  const plus_pro = document.getElementById('f1-plus-pro').value.trim();
+  const plus_perso = document.getElementById('f1-plus-perso').value.trim();
+  const valeurs = getSelectedTags('valeurs-tags');
+  const valeur_custom = document.getElementById('f2-valeur-custom').value.trim();
+  const colere = document.getElementById('f2-colere').value.trim();
+  const hobbies = document.getElementById('f3-hobbies').value.trim();
+  const competences = document.getElementById('f3-competences').value.trim();
+  const experiences = document.getElementById('f3-experiences').value.trim();
+  const questions = document.getElementById('f4-questions').value.trim();
+  const compliments = document.getElementById('f4-compliments').value.trim();
+  const aider = document.getElementById('f4-aider').value.trim();
+  const probleme = document.getElementById('f5-probleme').value.trim();
+  const besoin = document.getElementById('f5-besoin').value.trim();
+  const different = document.getElementById('f5-different').value.trim();
+  const energie = getSelectedTags('energie-tags');
+  const formats = getSelectedFormats();
+  const temps = getSelectedSingle('temps-');
+  const idee = document.getElementById('f7-idee').value.trim();
+  const cible = document.getElementById('f7-cible').value.trim();
+  const validation = getSelectedSingle('valid-');
+  const prix = getSelectedSingle('prix-');
+  const revenus = getSelectedSingle('rev-');
+  const frein = document.getElementById('f8-frein').value.trim();
+
+  const prompt = `Tu es un expert en création de produits digitaux, en marketing et en accompagnement entrepreneurial.
+Je suis en train de me lancer en ligne et je cherche mon idée de produit digital. J'ai besoin que tu analyses mon profil complet et que tu m'aides à identifier 3 idées de produits concrètes, réalistes et alignées avec qui je suis vraiment.
+
+═══ MON PROFIL COMPLET ═══
+
+── CE QUE JE VEUX & CE QUE JE NE VEUX PLUS ──
+
+Ce que je veux professionnellement :
+${veut_pro}
+
+Ce que je veux dans ma vie personnelle :
+${veut_perso}
+
+Ce que je ne veux plus professionnellement (CDI, contraintes...) :
+${plus_pro}
+
+Ce que je ne veux plus dans ma vie personnelle :
+${plus_perso}
+
+── MES VALEURS ──
+
+Valeurs qui me définissent : ${valeurs}${valeur_custom ? '\nValeur supplémentaire : ' + valeur_custom : ''}
+
+Ce qui me met en colère dans le monde :
+${colere}
+
+── MES RICHESSES CACHÉES ──
+
+Mes hobbies & passions :
+${hobbies}
+
+Mes compétences professionnelles ou acquises :
+${competences}
+${experiences ? '\nMes expériences de vie marquantes :\n' + experiences : ''}
+
+── CE QUE LES AUTRES ME DEMANDENT ──
+
+Les questions que mon entourage me pose souvent :
+${questions}
+
+Ce pour quoi on me complimente ou me remercie :
+${compliments}
+${aider ? '\nSi je devais aider quelqu\'un gratuitement demain, ce serait dans :\n' + aider : ''}
+
+── MA TRANSFORMATION PERSONNELLE ──
+
+Un problème que j'ai résolu dans ma vie :
+${probleme}
+
+Ce que j'aurais aimé avoir quand je traversais ça :
+${besoin}
+${different ? '\nCe que je ferais différemment si je recommençais :\n' + different : ''}
+
+── MON ÉNERGIE DE CRÉATION ──
+
+Comment j'aime partager & expliquer : ${energie || 'Non précisé'}
+Formats de produit qui m'attirent : ${formats || 'Non précisé'}${temps ? '\nTemps disponible par semaine : ' + temps : ''}
+
+── MON INTUITION DE DÉPART ──
+
+Mon idée brute de produit :
+${idee}
+${cible ? '\nLa personne à qui je voudrais vendre ça :\n' + cible : ''}
+
+── VALIDATION & AMBITIONS ──
+${validation ? 'Personnes dans mon entourage avec ce problème : ' + validation + '\n' : ''}${prix ? 'Prix envisagé : ' + prix + '\n' : ''}${revenus ? 'Objectif de revenus mensuel : ' + revenus + '\n' : ''}${frein ? 'Ce qui me retient encore : ' + frein : ''}
+
+═══ CE QUE JE TE DEMANDE ═══
+
+À partir de ce profil complet, réponds-moi de façon structurée :
+
+1. ANALYSE DE MON PROFIL
+   Dis-moi ce que tu vois de fort en moi — mes atouts principaux, ce qui ressort clairement.
+
+2. MES 3 IDÉES DE PRODUITS DIGITAUX
+   Pour chaque idée, donne-moi :
+   – Le nom de l'idée
+   – Ce que je vendrais exactement
+   – À qui (profil de la cliente idéale)
+   – La transformation que ça apporte
+   – Le format recommandé selon ma personnalité
+   – Le prix de lancement conseillé
+   – Pourquoi cette idée est alignée avec MOI spécifiquement
+
+3. TON IDÉE RECOMMANDÉE
+   Quelle idée me recommandes-tu en priorité et pourquoi ?
+
+4. LES PROCHAINES ÉTAPES
+   Concrètement, quoi faire en premier pour commencer à créer ce produit ?
+
+Sois précis, encourageant et réaliste. Ne me donne pas des idées génériques — base-toi uniquement sur ce que je t'ai partagé.`;
+
+  document.getElementById('prompt-output').textContent = prompt;
+  document.getElementById('screen-funnel').classList.remove('active');
+  document.getElementById('screen-prompt').classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+async function copyPrompt() {
+  const text = document.getElementById('prompt-output').textContent;
+  try {
+    await navigator.clipboard.writeText(text);
+    document.getElementById('copy-label').textContent = 'Copié !';
+    document.getElementById('copy-icon').textContent = '✅';
+    document.getElementById('copy-btn').classList.add('copied');
+    setTimeout(() => {
+      document.getElementById('copy-label').textContent = 'Copier le prompt';
+      document.getElementById('copy-icon').textContent = '📋';
+      document.getElementById('copy-btn').classList.remove('copied');
+    }, 3000);
+  } catch(e) {
+    alert('Sélectionne et copie manuellement le texte ci-dessus.');
+  }
+}
+
+function restartFunnel() {
+  document.getElementById('screen-prompt').classList.remove('active');
+  document.getElementById('screen-home').classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>
